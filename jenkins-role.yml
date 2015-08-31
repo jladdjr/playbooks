@@ -8,8 +8,13 @@
   sudo: yes
   tasks:
   - name: Retreive Jenkins repo information 
-    command: "wget -O {{ jenkins_repo_file }} {{ jenkins_repo_url }}" 
+    get_url: "dest={{ jenkins_repo_file }} url={{ jenkins_repo_url }}" 
   - name: Add the Jenkins repository to the yum repos
-    command: "rpm --import {{ jenkins_key_url }}" 
+    rpm_key: "state=present key={{ jenkins_key_url }}" 
   - name: Install Jenkins
     yum: pkg=jenkins state=latest
+    notify:
+    - restart jenkins
+  handlers:
+    - name: restart jenkins
+      service: name=jenkins state=restarted

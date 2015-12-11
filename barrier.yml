@@ -3,6 +3,8 @@
   gather_facts: true
   vars:
     tmp_dir: /tmp
+  become: true
+  become_user: root
   tasks:
     - file: path=/home/ec2-user/public/jdl-test state=touch mode=0644 owner=awx group=awx
 

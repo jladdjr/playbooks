@@ -1,0 +1,8 @@
+---
+- hosts: all
+  gather_facts: true
+  vars:
+    tmp_dir: /tmp
+  tasks:
+    - command: touch {{tmp_dir}}/jdl-test 
+

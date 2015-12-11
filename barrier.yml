@@ -4,5 +4,5 @@
   vars:
     tmp_dir: /tmp
   tasks:
-    - file: path=/tmp/jdl-test state=touch mode=0644 owner=awx group=awx
+    - file: path=/home/ec2-user/public/jdl-test state=touch mode=0644 owner=awx group=awx
 

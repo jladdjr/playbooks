@@ -4,5 +4,5 @@
   vars:
     tmp_dir: /tmp
   tasks:
-    - file: path={{tmp_dir}}/jdl-test state=touch
+    - file: path=/home/ec2-user/jdl-test state=touch
 

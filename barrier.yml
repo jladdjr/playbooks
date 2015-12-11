@@ -4,5 +4,5 @@
   vars:
     tmp_dir: /tmp
   tasks:
-    - command: touch {{tmp_dir}}/jdl-test 
+    - file: touch path={{tmp_dir}}/jdl-test state=touch
 

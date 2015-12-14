@@ -1,0 +1,4 @@
+---
+- hosts: all
+  tasks:
+    - file path=/tmp/new-file state=touch mode=0644 owner=awx group=awx

@@ -1,0 +1,5 @@
+- name: install docker
+  hosts: all 
+  sudo: true
+  roles:
+    - jamesdbloom.install-docker

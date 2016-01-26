@@ -5,9 +5,9 @@
     int_var: 100
   tasks:
     - shell: echo "{{ text_var }}"
-      shell: echo "{{ textarea_var }}"
-      shell: echo "{{ password_var }}"
-      shell: echo "{{ mc_var }}"
-      shell: echo "{{ mc_multiple_var }}"
-      shell: echo "{{ int_var }}"
-      shell: echo "{{ float_var }}"
+    - shell: echo "{{ textarea_var }}"
+    - shell: echo "{{ password_var }}"
+    - shell: echo "{{ mc_var }}"
+    - shell: echo "{{ mc_multiple_var }}"
+    - shell: echo "{{ int_var }}"
+    - shell: echo "{{ float_var }}"

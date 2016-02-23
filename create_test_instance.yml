@@ -1,0 +1,95 @@
+---
+- hosts: test 
+  tasks:  
+    - name: Install git
+      become: True
+      yum:  "name=git state=latest"
+
+    - name: Install pip
+      become: True
+      yum:  "name=python27-pip state=latest"
+
+    - name: Get virtualenv
+      become: True
+      pip:  "name=virtualenv state=latest"
+
+    - name: Get virtualenvwrapper
+      become: True
+      pip:  "name=virtualenvwrapper state=latest"
+
+    - name: Create virtualenvwrapper working directory
+      file: "path=~/Devel state=touch"
+
+    - name: Add virtualenvwrapper setup to .bashrc
+      lineinfile: "dest=~/.bashrc create=yes state=present line='export WORKON_HOME=$HOME/.virtualenvs'"
+
+    - name: Add virtualenvwrapper setup to .bashrc
+      lineinfile: "dest=~/.bashrc state=present line='export PROJECT_HOME=$HOME/Devel'"
+
+    - name: Add virtualenvwrapper setup to .bashrc
+      lineinfile: "dest=~/.bashrc state=present line='source /usr/local/bin/virtualenvwrapper.sh'"
+
+    - name: Determine if virtualenv already created
+      shell: "source ~/.bashrc; lsvirtualenv"
+      register: virtual_envs
+
+    - name: Create virtualenv
+      shell: "source ~/.bashrc; mkvirtualenv tower-qa"
+      when: virtual_envs.stdout.find('tower-qa') == -1
+
+    - name: Check if test directory exists
+      stat: "path=~/tower-testing"
+      register: test_directory
+
+    - name: Install requirements for pycrypto
+      become: True
+      yum: 
+        name: "gcc,libffi-devel,python-devel,openssl-devel"
+        state: latest 
+
+    - name: Install testing repo
+      git: "repo=git@github.com:/ansible/tower-qa.git dest=~/tower-testing clone=yes accept_hostkey=yes"
+      when: test_directory.stat.exists == False
+
+    - name: Install tower-qa requirements
+      shell: "source ~/.bashrc; workon tower-qa; pip install -r tests/requirements.txt"
+      args: 
+        chdir: "~/tower-testing"
+
+    - name: Disable host key checking 
+      lineinfile: "dest=~/.bashrc state=present line='export ANSIBLE_HOST_KEY_CHECKING=False'"
+
+    - name: Create .ansible.cfg file
+      copy: 
+        content: "[ssh_connection]\ncontrol_path = %(directory)s/%%h-%%r"
+        dest: "~/.ansible.cfg"
+
+    - name: Copy over user-specific files (makefile)
+      copy: 
+        src: "/Users/jladd/code/tower-qa/makefile"
+        dest: "~/tower-testing"
+
+    - name: Copy over user-specific files (credentials.yml)
+      copy: 
+        src: "/Users/jladd/code/tower-qa/tests/credentials.yml"
+        dest: "~/tower-testing/tests"
+
+    - name: Copy over user-specific files (ec2-vars.yml)
+      copy: 
+        src: "/Users/jladd/code/tower-qa/tests/ec2-vars.yml"
+        dest: "~/tower-testing/tests"
+
+    - name: Create .ssh directory
+      file: "path=~/.ssh state=directory mode=700"
+
+    - name: Copy over testing keys (move private key)
+      copy:
+        src: "/Users/jladd/.ssh/id_rsa.ansible_testing"
+        dest: "~/.ssh/id_rsa"
+        mode: 0600
+
+    - name: Copy over testing keys (move public key)
+      copy:
+        src: "/Users/jladd/.ssh/id_rsa.ansible_testing.pub"
+        dest: "~/.ssh/id_rsa.pub"
+        mode: 0644

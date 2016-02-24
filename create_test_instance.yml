@@ -1,3 +1,17 @@
+##################
+#
+# Deploy a QE Test Environment (from which installs/pytests can be run)
+#
+# Prerequisites:
+#  * ssh-forwarding for github keys (in order to download private QE repo from remote machine)
+#
+# Notes:
+#  * May need to modify which personal testing files get copied over 
+#    (currently copies over makefile, ec2-vars.yml, and credentials.yml)
+#
+##################
+
+
 ---
 - hosts: test 
   tasks:  

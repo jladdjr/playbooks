@@ -4,6 +4,8 @@
 #
 # Prerequisites:
 #  * ssh-forwarding for github keys (in order to download private QE repo from remote machine)
+#  * will need to add the following to .bashrc after running playbook
+#    - JENKINS_USER, JENKINS_TOKEN, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 #
 # Notes:
 #  * May need to modify which personal testing files get copied over 

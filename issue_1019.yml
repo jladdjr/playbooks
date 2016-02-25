@@ -1,0 +1,6 @@
+---
+- hosts: test
+  tasks:
+   - name: install lsb
+     yum: name=redhat-lsb state=latest
+     tags: installlsb 

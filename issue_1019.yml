@@ -2,5 +2,5 @@
 - hosts: test
   tasks:
    - name: install lsb
-     yum: name=redhat-lsb state=latest
+     yum: name=redhat-lsb state=latest disable_gpg_check=yes
      tags: installlsb 

@@ -3,6 +3,7 @@
 # Deploy a QE Test Environment (from which installs/pytests can be run)
 #
 # Prerequisites:
+#  * Designed to work with RHEL 7.2 instance
 #  * ssh-forwarding for github keys (in order to download private QE repo from remote machine)
 #  * will need to add the following to .bashrc after running playbook
 #    - JENKINS_USER, JENKINS_TOKEN, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
@@ -15,6 +16,25 @@
 
 
 ---
+- hosts: test
+  become: true
+  tasks:
+    - name: install epel bootstrap yum repository
+      template:
+        src: epel-bootstrap.repo.j2
+        dest: /etc/yum.repos.d/epel-bootstrap.repo
+    
+    - name: install epel-release rpm
+      yum:
+        name: epel-release
+        state: latest
+        enablerepo: epel-bootstrap
+    
+    - name: remove epel bootstrap yum repository
+      file:
+        path: /etc/yum.repos.d/epel-bootstrap.repo
+        state: absent
+    
 - hosts: test 
   tasks:  
     - name: Install git
@@ -23,7 +43,8 @@
 
     - name: Install pip
       become: True
-      yum:  "name=python27-pip state=latest"
+      #yum:  "name=python27-pip state=latest"
+      yum:  "name=python-pip state=latest"
 
     - name: Get virtualenv
       become: True
@@ -43,7 +64,8 @@
       lineinfile: "dest=~/.bashrc state=present line='export PROJECT_HOME=$HOME/Devel'"
 
     - name: Add virtualenvwrapper setup to .bashrc
-      lineinfile: "dest=~/.bashrc state=present line='source /usr/local/bin/virtualenvwrapper.sh'"
+      #lineinfile: "dest=~/.bashrc state=present line='source /usr/local/bin/virtualenvwrapper.sh'"
+      lineinfile: "dest=~/.bashrc state=present line='source /bin/virtualenvwrapper.sh'"
 
     - name: Determine if virtualenv already created
       shell: "source ~/.bashrc; lsvirtualenv"
@@ -63,6 +85,17 @@
         name: "gcc,libffi-devel,python-devel,openssl-devel"
         state: latest 
 
+    - name: Copy over github keys (move private key)
+      copy:
+        src: "/Users/jladd/.ssh/id_rsa.github"
+        dest: "~/.ssh/id_rsa"
+        mode: 0600
+
+    - name: Copy over github keys (move public key)
+      copy:
+        src: "/Users/jladd/.ssh/id_rsa.github.pub"
+        dest: "~/.ssh/id_rsa.pub"
+        mode: 0644
     - name: Install testing repo
       git: "repo=git@github.com:/ansible/tower-qa.git dest=~/tower-testing clone=yes accept_hostkey=yes"
       when: test_directory.stat.exists == False
@@ -109,3 +142,9 @@
         src: "/Users/jladd/.ssh/id_rsa.ansible_testing.pub"
         dest: "~/.ssh/id_rsa.pub"
         mode: 0644
+
+    - name: Add jenkins credentials to environment
+      lineinfile: "dest=~/.bashrc state=present line='export JENKINS_USER=jladd@ansible.com\nexport JENKINS_TOKEN=FIXME'"
+
+    - name: Add AWS credentials to environment
+      lineinfile: "dest=~/.bashrc state=present line='export AWS_ACCESS_KEY_ID=AKIAIGDWMEWZDXLN3NUQ\nexport AWS_SECRET_ACCESS_KEY=FIXME'"

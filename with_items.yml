@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+    - name: 'testing with_items'
+      shell: 'echo {{ item }}'
+      with_items:
+        - one
+        - two
+        - three

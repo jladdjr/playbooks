@@ -7,3 +7,8 @@
         - one
         - two
         - three
+    - name: 'items with different results'
+      shell: 'exit {{ item }}'
+      with_items:
+        - 0
+        - 1

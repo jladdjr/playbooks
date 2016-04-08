@@ -7,5 +7,5 @@
         - one
         - two
         - three
-    - name: 'failing task'
-      shell: 'exit 1'
+    - name: 'test message'
+      debug: msg='test message' 

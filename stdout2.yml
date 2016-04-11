@@ -1,6 +1,6 @@
 ---
 - hosts: all
   tasks:
-    - shell: "text="0123456789"; for i in `seq 100000`; do echo $text; done"
+    - shell: "text='0123456789'; for i in `seq 100000`; do echo $text; done"
       register: result 
     - debug: msg="{{ result.stdout }}"

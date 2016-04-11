@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - shell: "find /"
+      register: result 
+    - debug: msg="{{ result.stdout }}"

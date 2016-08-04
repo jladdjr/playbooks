@@ -1,0 +1,10 @@
+---
+- name: Ignore task 
+  hosts: all 
+  gather_facts: false
+  tasks:
+    - name: ignored
+      command: 'false'
+      ignore_errors: true
+
+

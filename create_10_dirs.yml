@@ -8,6 +8,6 @@
       with_items:
         - /tmp/{{ inventory_hostname }}/6555b322075c3a2933b422822051c864
 
-    #- file:
-    #    path: /tmp/
-    #    state: absent
+    - file:
+        path: /tmp/{{ inventory_hostname }}
+        state: absent

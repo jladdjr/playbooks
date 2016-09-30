@@ -7,6 +7,15 @@
         mode: 0o0700
       with_items:
         - /tmp/{{ inventory_hostname }}/6555b322075c3a2933b422822051c864
+        - /tmp/{{ inventory_hostname }}/c2b5e864be8064373611227c8a6c555d
+        - /tmp/{{ inventory_hostname }}/291ef99da8c38e4245012d242cd02466
+        - /tmp/{{ inventory_hostname }}/274a333f307a8f9148c469e93b08224e
+        - /tmp/{{ inventory_hostname }}/63d38cfc19c2e3becf13f68b762e20d1
+        - /tmp/{{ inventory_hostname }}/5e10a17df102c7381a0a80fc4744cb27
+        - /tmp/{{ inventory_hostname }}/a0968b632e9963be670220235b88386c
+        - /tmp/{{ inventory_hostname }}/3082c2be7ed9be0b0dac12c393afef8e
+        - /tmp/{{ inventory_hostname }}/277028ee39788fb01d429e70fb73e35c
+        - /tmp/{{ inventory_hostname }}/f399abee61720561ee271497a4a01a4f
 
     - file:
         path: /tmp/{{ inventory_hostname }}

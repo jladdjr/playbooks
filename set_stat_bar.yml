@@ -4,3 +4,9 @@
     - set_stats:
         data:
             bar: bar_value
+    - debug:
+        var: foo
+    - debug:
+        var: bar
+    - debug:
+        var: baz

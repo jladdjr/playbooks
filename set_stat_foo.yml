@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - set_stats:
+        data:
+            foo: foo_value

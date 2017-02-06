@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+    - set_stats:
+        data:
+            foo: foo_value_updated
+    - debug:
+        var: foo
+    - debug:
+        var: bar
+    - debug:
+        var: baz

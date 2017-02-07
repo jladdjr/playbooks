@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - set_stats:
+        data:
+            var1: var1_set

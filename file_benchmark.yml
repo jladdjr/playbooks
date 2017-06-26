@@ -1008,9 +1008,7 @@
         - /tmp/test/895e9aab69a5503e2beae0974b9d598c
         - /tmp/test/03a32c729deafd6e0b81e9fad2acc857
         - /tmp/test/8ebf73290522e4439523795086b377d9
-      become: true
 
     - file:
         path: /tmp/test
         state: absent
-      become: true
